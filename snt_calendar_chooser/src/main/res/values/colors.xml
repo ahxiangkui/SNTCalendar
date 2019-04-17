@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorAccent">#DDBA76</color>
+    <color name="gapBgColor">#EEF0F4</color>
+
+    <color name="dateTxtColor">#606266</color>
+    <color name="dateTxtDisableColor">#CCCCCC</color>
+    <color name="dateTxtSelectColor">#1777CB</color>
+    <color name="dateMonthSelectBgColor">#F5F7FA</color>
+
+</resources>
