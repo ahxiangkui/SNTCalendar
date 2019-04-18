@@ -67,23 +67,23 @@ public class MainActivity extends AppCompatActivity {
         singleDayTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSingleDayChooser().show();
+                getSingleDayChooser().show();//显示日历
             }
         });
-        singleDayLastTV.setOnClickListener(new View.OnClickListener() {//上一日
+        singleDayLastTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSingleDayChooser().selectLastDate();
+                getSingleDayChooser().selectLastDate();//显示上一日
             }
         });
-        singleDayNextTV.setOnClickListener(new View.OnClickListener() {//下一日
+        singleDayNextTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSingleDayChooser().selectNextDate();
+                getSingleDayChooser().selectNextDate();//显示下一日
             }
         });
 
-        getSingleDayChooser().currentDate();
+        getSingleDayChooser().currentDate();//显示当前日期
 
     }
     private CalendarChooser getSingleDayChooser(){
@@ -117,23 +117,23 @@ public class MainActivity extends AppCompatActivity {
         singleMonthTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSingleMonthChooser().show();
+                getSingleMonthChooser().show();//显示日历
             }
         });
         singleMonthLastTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSingleMonthChooser().selectLastDate();
+                getSingleMonthChooser().selectLastDate();//显示上一月
             }
         });
         singleMonthNextTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSingleMonthChooser().selectNextDate();
+                getSingleMonthChooser().selectNextDate();//显示下一月
             }
         });
 
-        getSingleMonthChooser().currentDate();
+        getSingleMonthChooser().currentDate();//显示当前日期
 
     }
     private CalendarChooser getSingleMonthChooser(){
@@ -171,31 +171,31 @@ public class MainActivity extends AppCompatActivity {
         singleWeekTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSingleWeekChooser().show();
+                getSingleWeekChooser().show();//显示日历
             }
         });
-        singleWeekLastTV.setOnClickListener(new View.OnClickListener() {//上一日
+        singleWeekLastTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSingleWeekChooser().selectLastDate();
+                getSingleWeekChooser().selectLastDate();//显示上一周
             }
         });
-        singleWeekNextTV.setOnClickListener(new View.OnClickListener() {//下一日
+        singleWeekNextTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSingleWeekChooser().selectNextDate();
+                getSingleWeekChooser().selectNextDate();//显示下一周
             }
         });
 
-        getSingleWeekChooser().currentDate();
+        getSingleWeekChooser().currentDate();//显示当前日期
     }
     private CalendarChooser getSingleWeekChooser(){
         if (singleWeekChooser == null){
 
-//            Calendar maxC = Calendar.getInstance();
-//            maxC.add(Calendar.DATE, 10);
-//            Calendar minC = Calendar.getInstance();
-//            minC.add(Calendar.DATE, -20);
+            Calendar maxC = Calendar.getInstance();
+            maxC.add(Calendar.DATE, 10);
+            Calendar minC = Calendar.getInstance();
+            minC.add(Calendar.DATE, -20);
 
             CalendarChooser.Builder builder = new CalendarChooser.Builder(this)
                     .mode(ChooserMode.WEEK)
