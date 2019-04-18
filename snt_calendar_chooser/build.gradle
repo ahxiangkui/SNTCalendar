@@ -1,15 +1,17 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 28
 
-
+    //alias gradle="./gradlew"
+    //gradle clean build bintrayUpload -PbintrayUser=ahxiangdemm -PbintrayKey= -PdryRun=false --stacktrace --info --debug
 
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -22,6 +24,17 @@ android {
         }
     }
 
+}
+
+// 新增
+publish {
+    userOrg = 'ahxiangdemm'        //bintray.com用户名
+    repoName = 'SNT'
+    groupId = 'com.snt.lib'    //jcenter上的路径
+    artifactId = 'snt_calendar_chooser'   //项目名称
+    publishVersion = '1.0.0'//版本号
+    desc = '多功能日历选择控件'//描述，自由填写
+    website = 'https://github.com/ahxiangkui/SNTCalendar' // 网址，自由填写
 }
 
 dependencies {
