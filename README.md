@@ -4,6 +4,48 @@
 ![测试首页](screenshot/test.png)
 
 ## 单选日
+```Java
+private void setupSingleDay(){
+    singleDayTV.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getSingleDayChooser().show();//显示日历
+        }
+    });
+    singleDayLastTV.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getSingleDayChooser().selectLastDate();//显示上一日
+        }
+    });
+    singleDayNextTV.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getSingleDayChooser().selectNextDate();//显示下一日
+        }
+    });
+    getSingleDayChooser().currentDate();//显示当前日期
+}
+private CalendarChooser getSingleDayChooser(){
+    if (singleDayChooser == null){
+        Calendar maxDate = Calendar.getInstance();
+        maxDate.add(Calendar.DATE, 10);
+        CalendarChooser.Builder builder = new CalendarChooser.Builder(this)
+                .mode(ChooserMode.DAY)
+                .currentDate(Calendar.getInstance())
+                .maxDate(maxDate)
+                .displayDateFormat(new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA))
+                .resultListener(new ChooseResultListener() {
+                    @Override
+                    public void choiceResult(SelectedDateItem result) {
+                        singleDayTV.setText(result.getDisplayStr());
+                    }
+                });
+        singleDayChooser = builder.build();
+    }
+    return singleDayChooser;
+}
+```
 ![单选日](screenshot/single_day.png)
 
 ## 单选月
