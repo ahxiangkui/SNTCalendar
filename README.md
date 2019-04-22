@@ -5,6 +5,12 @@
 
 # Usage
 
+```gradle
+dependencies {
+    implementation 'com.snt.lib:snt_calendar_chooser:1.0.0'
+}
+```
+
 ## 单选日
 ```Java
 private void setupSingleDay(){
