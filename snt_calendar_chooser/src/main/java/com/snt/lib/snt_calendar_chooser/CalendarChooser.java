@@ -1,13 +1,18 @@
 package com.snt.lib.snt_calendar_chooser;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class CalendarChooser {
+
+    public static final int defaultTintColorAlpha = 20;
 
     private ChooserConfiguration configuration;
     private ExpandedBottomSheetDialog dialog;
@@ -117,6 +122,9 @@ public class CalendarChooser {
         private SimpleDateFormat valueDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         private SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         private ChooseResultListener listener;
+        private int tintColor;
+        private int confirmBtnColor;
+        private int tintAlpha;
 
         public Builder(Context context) {
             this.context = context;
@@ -124,6 +132,21 @@ public class CalendarChooser {
 
         public Builder mode(ChooserMode mode) {
             this.mode = mode;
+            return this;
+        }
+
+        public Builder tintColor(int tintColor) {
+            this.tintColor = tintColor;
+            return this;
+        }
+
+        public Builder confirmBtnColor(int confirmBtnColor) {
+            this.confirmBtnColor = confirmBtnColor;
+            return this;
+        }
+
+        public Builder tintAlpha(int tintAlpha) {
+            this.tintAlpha = tintAlpha;
             return this;
         }
 
@@ -199,6 +222,26 @@ public class CalendarChooser {
 
             config.setDisplayDateformat(displayDateFormat);
             config.setValueDateformat(valueDateFormat);
+
+            if (tintAlpha != 0){
+                config.setTintAlpha(tintAlpha);
+            }else {
+                config.setTintAlpha(defaultTintColorAlpha);
+            }
+
+            if (tintColor != 0){
+                config.setTintColor(tintColor);
+            }else {
+
+                config.setTintColor(ContextCompat.getColor(context ,R.color.colorPrimary));
+            }
+
+            if (confirmBtnColor != 0){
+                config.setConfirmBtnColor(confirmBtnColor);
+            }else {
+
+                config.setConfirmBtnColor(ContextCompat.getColor(context ,R.color.colorPrimary));
+            }
 
             SelectedDateItem selectedDateItem = new SelectedDateItem();
             if (selectStartDate != null){

@@ -19,26 +19,6 @@ public class SelectedDateItem {
 
     private String displayStr;//文本框显示内容
 
-//
-//    private String dateType;//兼容老字段
-//    private String displayValue;//兼容老字段
-//
-//    public String getDateType() {
-//        return dateType;
-//    }
-//
-//    public void setDateType(String dateType) {
-//        this.dateType = dateType;
-//    }
-//
-//    public String getDisplayValue() {
-//        return displayValue;
-//    }
-//
-//    public void setDisplayValue(String displayValue) {
-//        this.displayValue = displayValue;
-//    }
-
     public ChooserMode getChooserMode() {
         return chooserMode;
     }

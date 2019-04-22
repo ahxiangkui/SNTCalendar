@@ -1,8 +1,10 @@
 package com.snt.lib.snt_calendar_chooser;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,8 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
     private Calendar selectDate;
     private Calendar currentDate;
     private boolean weekmode;
+    private int tintColor;
+    private int tintAlpha;
 
     private int selectItemPosition = -1;
 
@@ -37,9 +41,12 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
         void selectADate(Calendar calendar, boolean needRefresh);
     }
 
-    public DateChoiceRVAdapter(Context context, Calendar selectDate, Calendar minDate, Calendar maxDate, boolean weekmode, RVItemEventListener rvItemEventListener) {
+    public DateChoiceRVAdapter(Context context, Calendar selectDate, Calendar minDate, Calendar maxDate
+            , boolean weekmode, int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener) {
         this.maxDate = maxDate;
         this.minDate = minDate;
+        this.tintColor = tintColor;
+        this.tintAlpha = tintAlpha;
         this.selectDate = selectDate;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.rvItemEventListener = rvItemEventListener;
@@ -101,16 +108,32 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
                         ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
                         ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.INVISIBLE);
                         ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.VISIBLE);
+
+                        ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
+                        ((NormalViewHolder) holder).rightSelectBgV.setBackgroundColor(tintColor);
+                        ((NormalViewHolder) holder).rightSelectBgV.getBackground().setAlpha(tintAlpha);
+
                     }else if (item.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
                         ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
                         ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
                         ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.VISIBLE);
                         ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.INVISIBLE);
+
+                        ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
+                        ((NormalViewHolder) holder).leftSelectBgV.setBackgroundColor(tintColor);
+                        ((NormalViewHolder) holder).leftSelectBgV.getBackground().setAlpha(tintAlpha);
+
                     }else {
                         ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
                         ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
                         ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.VISIBLE);
                         ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.VISIBLE);
+
+                        ((NormalViewHolder) holder).leftSelectBgV.setBackgroundColor(tintColor);
+                        ((NormalViewHolder) holder).rightSelectBgV.setBackgroundColor(tintColor);
+                        ((NormalViewHolder) holder).leftSelectBgV.getBackground().setAlpha(tintAlpha);
+                        ((NormalViewHolder) holder).rightSelectBgV.getBackground().setAlpha(tintAlpha);
+
                     }
 
 
@@ -138,6 +161,7 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
                 if (selectDate != null && dateEquals(selectDate, item) == 0){
                     ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
                     ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
+                    ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
                     ((NormalViewHolder) holder).disable = false;
                     selectItemPosition = position;
                 }else if (maxDate != null && dateEquals(item, maxDate) > 0){
@@ -279,6 +303,7 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
                 selectItemPosition = itemPosition;
                 titleTV.setTextColor(Color.WHITE);
                 selectBgV.setVisibility(View.VISIBLE);
+                ViewCompat.setBackgroundTintList(selectBgV, ColorStateList.valueOf(tintColor));
             }
 
         }

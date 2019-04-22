@@ -36,14 +36,18 @@ public class MonthDateChoiceRVAdapter extends RecyclerView.Adapter<MonthDateChoi
     private int selectMonth;
     private int selectItemPosition = -1;
     private Calendar nowDate;
+    private int tintColor;
+    private int tintAlpha;
 
     public interface RVItemEventListener{
         void selectADate(Calendar calendar);
     }
 
-    public MonthDateChoiceRVAdapter(Context context, Calendar nowDate, Calendar maxDate, Calendar minDate, RVItemEventListener rvItemEventListener) {
+    public MonthDateChoiceRVAdapter(Context context, Calendar nowDate, Calendar maxDate, Calendar minDate, int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener) {
         this.maxDate = maxDate;
         this.minDate = minDate;
+        this.tintColor = tintColor;
+        this.tintAlpha = tintAlpha;
         if (maxDate != null){
 
             this.maxYear = maxDate.get(Calendar.YEAR);
@@ -103,9 +107,11 @@ public class MonthDateChoiceRVAdapter extends RecyclerView.Adapter<MonthDateChoi
             ((NormalViewHolder) holder).titleTV.setText(item+"");
             ((NormalViewHolder) holder).currentMonth = item;
             if (nowDate != null && selectYear == currentYear && selectMonth == item){
-                ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtSelectColor));
-                ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtSelectColor));
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(ContextCompat.getColor(context, R.color.dateMonthSelectBgColor));
+                ((NormalViewHolder) holder).titleTV.setTextColor(tintColor);
+                ((NormalViewHolder) holder).unitTV.setTextColor(tintColor);
+                ((NormalViewHolder) holder).contentV.setBackgroundColor(tintColor);
+                ((NormalViewHolder) holder).contentV.getBackground().setAlpha(tintAlpha);
+
                 ((NormalViewHolder) holder).disable = false;
                 selectItemPosition = position;
             }else if (maxDate != null && (currentYear > maxYear || (currentYear == maxYear && item > maxMonth))){
@@ -184,9 +190,10 @@ public class MonthDateChoiceRVAdapter extends RecyclerView.Adapter<MonthDateChoi
                 notifyItemChanged(selectItemPosition);
             }
             selectItemPosition = itemPosition;
-            titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtSelectColor));
-            unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtSelectColor));
-            contentV.setBackgroundColor(ContextCompat.getColor(context, R.color.dateMonthSelectBgColor));
+            titleTV.setTextColor(tintColor);
+            unitTV.setTextColor(tintColor);
+            contentV.setBackgroundColor(tintColor);
+            contentV.getBackground().setAlpha(tintAlpha);
 
         }
     }

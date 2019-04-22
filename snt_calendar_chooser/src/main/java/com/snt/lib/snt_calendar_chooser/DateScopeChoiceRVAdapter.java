@@ -1,8 +1,10 @@
 package com.snt.lib.snt_calendar_chooser;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,13 +35,18 @@ public class DateScopeChoiceRVAdapter extends RecyclerView.Adapter<DateScopeChoi
 
     private Calendar currentDate;//日历当前月
 
+    private int tintColor;
+    private int tintAlpha;
+
     public interface RVItemEventListener{
         void selectScopeDate(Calendar selectStartDate, Calendar selectEndDate);
     }
 
-    public DateScopeChoiceRVAdapter(Context context, Calendar startDate, Calendar endDate, Calendar minDate, Calendar maxDate, RVItemEventListener rvItemEventListener) {
+    public DateScopeChoiceRVAdapter(Context context, Calendar startDate, Calendar endDate, Calendar minDate, Calendar maxDate, int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener) {
         this.maxDate = maxDate;
         this.minDate = minDate;
+        this.tintColor = tintColor;
+        this.tintAlpha = tintAlpha;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.rvItemEventListener = rvItemEventListener;
         this.datas = new ArrayList<>();
@@ -103,17 +110,23 @@ public class DateScopeChoiceRVAdapter extends RecyclerView.Adapter<DateScopeChoi
             if (startDate != null && DateUtil.dateEquals(startDate, item) == 0){
                 ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
                 ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
+                ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
                 ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.INVISIBLE);
                 if (endDate != null){
                     ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.VISIBLE);
+                    ((NormalViewHolder) holder).rightSelectBgV.setBackgroundColor(tintColor);
+                    ((NormalViewHolder) holder).rightSelectBgV.getBackground().setAlpha(tintAlpha);
                 }
 
             }else if (endDate != null && DateUtil.dateEquals(endDate, item) == 0){
                 ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
                 ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
+                ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
                 ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.INVISIBLE);
                 if (startDate != null){
                     ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.VISIBLE);
+                    ((NormalViewHolder) holder).leftSelectBgV.setBackgroundColor(tintColor);
+                    ((NormalViewHolder) holder).leftSelectBgV.getBackground().setAlpha(tintAlpha);
                 }
 
             }else if (startDate != null && endDate != null && DateUtil.dateEquals(startDate, item) < 0 && DateUtil.dateEquals(endDate, item) > 0){
@@ -121,6 +134,11 @@ public class DateScopeChoiceRVAdapter extends RecyclerView.Adapter<DateScopeChoi
                 ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
                 ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.VISIBLE);
                 ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.VISIBLE);
+
+                ((NormalViewHolder) holder).leftSelectBgV.setBackgroundColor(tintColor);
+                ((NormalViewHolder) holder).leftSelectBgV.getBackground().setAlpha(tintAlpha);
+                ((NormalViewHolder) holder).rightSelectBgV.setBackgroundColor(tintColor);
+                ((NormalViewHolder) holder).rightSelectBgV.getBackground().setAlpha(tintAlpha);
 
             }else if (maxDate != null && DateUtil.dateEquals(item, maxDate) > 0){//超过最大日期的样式
                 ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
@@ -205,15 +223,19 @@ public class DateScopeChoiceRVAdapter extends RecyclerView.Adapter<DateScopeChoi
             }
 
             if (startDate != null && endDate != null){
-                if (DateUtil.dateEquals(itemDate, endDate) == 0){
-                    endDate = null;
-                }else if (DateUtil.dateEquals(itemDate, startDate) == 0){
-                    startDate = null;
-                }else if (DateUtil.dateEquals(itemDate, endDate) < 0){
-                    startDate = itemDate;
-                }else if (DateUtil.dateEquals(itemDate, endDate) > 0){
-                    endDate = itemDate;
-                }
+
+                startDate = itemDate;
+                endDate = null;
+
+//                if (DateUtil.dateEquals(itemDate, endDate) == 0){
+//                    endDate = null;
+//                }else if (DateUtil.dateEquals(itemDate, startDate) == 0){
+//                    startDate = null;
+//                }else if (DateUtil.dateEquals(itemDate, endDate) < 0){
+//                    startDate = itemDate;
+//                }else if (DateUtil.dateEquals(itemDate, endDate) > 0){
+//                    endDate = itemDate;
+//                }
             }else {
                 if (startDate == null && endDate == null){
                     startDate = itemDate;

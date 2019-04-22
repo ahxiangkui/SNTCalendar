@@ -65,6 +65,7 @@ public class DateChoiceDialog extends ExpandedBottomSheetDialog implements DateC
                 }
             }
         });
+        confirmBtn.setBackgroundColor(configuration.getConfirmBtnColor());
         yearTV = dialogV.findViewById(R.id.txt_year);
 
         lastYearIB = dialogV.findViewById(R.id.ib_last_year);
@@ -104,7 +105,7 @@ public class DateChoiceDialog extends ExpandedBottomSheetDialog implements DateC
 
         RecyclerView recyclerView = dialogV.findViewById(R.id.rv_month_choice);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 7));
-        rvAdapter = new DateChoiceRVAdapter(context, nowDate, minDate, maxDate, weekmode, this);
+        rvAdapter = new DateChoiceRVAdapter(context, nowDate, minDate, maxDate, weekmode, configuration.getTintColor(), configuration.getTintAlpha(), this);
         recyclerView.setAdapter(rvAdapter);
         setupData(nowDate != null ? nowDate : Calendar.getInstance());
     }

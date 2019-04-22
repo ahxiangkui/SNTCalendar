@@ -111,6 +111,8 @@ public class DateScopeChoiceDialog extends ExpandedBottomSheetDialog implements 
             }
         });
 
+        confirmBtn.setBackgroundColor(configuration.getConfirmBtnColor());
+
         fastBtnsRG = dialogV.findViewById(R.id.rg_fast);
         lastDayRB = dialogV.findViewById(R.id.rb_lastday);
         day7RB = dialogV.findViewById(R.id.rb_7days);
@@ -162,7 +164,7 @@ public class DateScopeChoiceDialog extends ExpandedBottomSheetDialog implements 
         Calendar startDate = configuration.getSelectedDateItem().getStartDate();
         Calendar endDate = configuration.getSelectedDateItem().getEndDate();
 
-        rvAdapter = new DateScopeChoiceRVAdapter(context, startDate, endDate, minDate, maxDate, this);
+        rvAdapter = new DateScopeChoiceRVAdapter(context, startDate, endDate, minDate, maxDate, configuration.getTintColor(), configuration.getTintAlpha(), this);
         recyclerView.setAdapter(rvAdapter);
         setupData(endDate != null ? endDate : (startDate != null ? startDate : Calendar.getInstance()));
 

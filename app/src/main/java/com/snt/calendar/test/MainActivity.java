@@ -1,5 +1,6 @@
 package com.snt.calendar.test;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -94,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
                     .mode(ChooserMode.DAY)
                     .currentDate(Calendar.getInstance())
                     .maxDate(maxDate)
+                    .tintAlpha(15)
+                    .tintColor(Color.parseColor("#1777CB"))
+                    .confirmBtnColor(Color.parseColor("#DDBA76"))
                     .displayDateFormat(new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA))
                     .resultListener(new ChooseResultListener() {
                         @Override
@@ -147,6 +151,9 @@ public class MainActivity extends AppCompatActivity {
                     .currentDate(Calendar.getInstance())
                     .maxDate(maxDate)
                     .minDate(minDate)
+                    .tintAlpha(15)
+                    .tintColor(Color.parseColor("#1777CB"))
+                    .confirmBtnColor(Color.parseColor("#DDBA76"))
                     .displayDateFormat(new SimpleDateFormat("yyyy-MM", Locale.CHINA))
                     .resultListener(new ChooseResultListener() {
                         @Override
@@ -199,6 +206,9 @@ public class MainActivity extends AppCompatActivity {
 
             CalendarChooser.Builder builder = new CalendarChooser.Builder(this)
                     .mode(ChooserMode.WEEK)
+                    .tintAlpha(15)
+                    .tintColor(Color.parseColor("#1777CB"))
+                    .confirmBtnColor(Color.parseColor("#DDBA76"))
                     .currentDate(Calendar.getInstance())
                     .resultListener(new ChooseResultListener() {
                         @Override
@@ -245,6 +255,9 @@ public class MainActivity extends AppCompatActivity {
                     .currentDate(Calendar.getInstance())
                     .minDate(minC)
                     .maxDate(maxC)
+                    .tintAlpha(15)
+                    .tintColor(Color.parseColor("#1777CB"))
+                    .confirmBtnColor(Color.parseColor("#DDBA76"))
                     .selectStartDate(Calendar.getInstance())
                     .selectEndDate(endC)
                     .resultListener(new ChooseResultListener() {
@@ -292,6 +305,9 @@ public class MainActivity extends AppCompatActivity {
                     .currentDate(Calendar.getInstance())
                     .minDate(minC)
                     .maxDate(maxC)
+                    .tintAlpha(15)
+                    .tintColor(Color.parseColor("#1777CB"))
+                    .confirmBtnColor(Color.parseColor("#DDBA76"))
                     .selectStartDate(Calendar.getInstance())
                     .selectEndDate(endC)
                     .displayDateFormat(new SimpleDateFormat("yyyy-MM", Locale.CHINA))

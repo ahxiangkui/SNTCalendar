@@ -13,6 +13,9 @@ public class ChooserConfiguration {
     private boolean autoDismissDate; //默认不处理 需要自行处理dismiss(), 请在构建的时候设置.isNeedOverrideDismiss(true) 已将弹窗的实体对象存储在ResultItem对象中, 关闭直接取出dismiss即可
     private SelectedDateItem selectedDateItem;
     private ChooseResultListener listener;
+    private int tintColor;
+    private int confirmBtnColor;
+    private int tintAlpha;
 
     private SimpleDateFormat displayDateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     private SimpleDateFormat valueDateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
@@ -93,5 +96,29 @@ public class ChooserConfiguration {
 
     public void setAutoDismissDate(boolean autoDismissDate) {
         this.autoDismissDate = autoDismissDate;
+    }
+
+    public int getTintColor() {
+        return tintColor;
+    }
+
+    public void setTintColor(int tintColor) {
+        this.tintColor = tintColor;
+    }
+
+    public int getConfirmBtnColor() {
+        return confirmBtnColor;
+    }
+
+    public void setConfirmBtnColor(int confirmBtnColor) {
+        this.confirmBtnColor = confirmBtnColor;
+    }
+
+    public int getTintAlpha() {
+        return tintAlpha;
+    }
+
+    public void setTintAlpha(int tintAlpha) {
+        this.tintAlpha = tintAlpha;
     }
 }

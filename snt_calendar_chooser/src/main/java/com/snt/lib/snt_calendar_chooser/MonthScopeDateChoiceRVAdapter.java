@@ -29,15 +29,19 @@ public class MonthScopeDateChoiceRVAdapter extends RecyclerView.Adapter<MonthSco
     private Calendar minDate;
     private Calendar startDate;
     private Calendar endDate;
-
+    private int tintColor;
+    private int tintAlpha;
 
     public interface RVItemEventListener{
         void selectScopeDate(Calendar selectStartDate, Calendar selectEndDate);
     }
 
-    public MonthScopeDateChoiceRVAdapter(Context context, Calendar startDate, Calendar endDate, Calendar minDate, Calendar maxDate, RVItemEventListener rvItemEventListener) {
+    public MonthScopeDateChoiceRVAdapter(Context context, Calendar startDate, Calendar endDate
+            , Calendar minDate, Calendar maxDate, int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener) {
         this.maxDate = maxDate;
         this.minDate = minDate;
+        this.tintColor = tintColor;
+        this.tintAlpha = tintAlpha;
         this.startDate = startDate;
         this.endDate = endDate;
         this.mLayoutInflater = LayoutInflater.from(context);
@@ -89,9 +93,11 @@ public class MonthScopeDateChoiceRVAdapter extends RecyclerView.Adapter<MonthSco
             if ((startDate != null && DateUtil.dateMonthEquals(item, startDate) == 0)
                     || (endDate != null && DateUtil.dateMonthEquals(endDate, item) == 0)
                     || (startDate != null && endDate != null && DateUtil.dateMonthEquals(startDate, item) < 0 && DateUtil.dateMonthEquals(endDate, item) > 0)){
-                ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtSelectColor));
-                ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtSelectColor));
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(ContextCompat.getColor(context, R.color.dateMonthSelectBgColor));
+                ((NormalViewHolder) holder).titleTV.setTextColor(tintColor);
+                ((NormalViewHolder) holder).unitTV.setTextColor(tintColor);
+                ((NormalViewHolder) holder).contentV.setBackgroundColor(tintColor);
+                ((NormalViewHolder) holder).contentV.getBackground().setAlpha(tintAlpha);
+
                 ((NormalViewHolder) holder).disable = false;
             }else if (maxDate != null && DateUtil.dateMonthEquals(item, maxDate) > 0){
                 ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
@@ -176,15 +182,20 @@ public class MonthScopeDateChoiceRVAdapter extends RecyclerView.Adapter<MonthSco
 //            contentV.setBackgroundColor(ContextCompat.getColor(context, R.color.dateMonthSelectBgColor));
 
             if (startDate != null && endDate != null){
-                if (DateUtil.dateMonthEquals(itemDate, endDate) == 0){
-                    endDate = null;
-                }else if (DateUtil.dateMonthEquals(itemDate, startDate) == 0){
-                    startDate = null;
-                }else if (DateUtil.dateMonthEquals(itemDate, endDate) < 0){
-                    startDate = itemDate;
-                }else if (DateUtil.dateMonthEquals(itemDate, endDate) > 0){
-                    endDate = itemDate;
-                }
+
+                startDate = itemDate;
+                endDate = null;
+
+//                if (DateUtil.dateMonthEquals(itemDate, endDate) == 0){
+//                    endDate = null;
+//                }else if (DateUtil.dateMonthEquals(itemDate, startDate) == 0){
+//                    startDate = null;
+//                }else if (DateUtil.dateMonthEquals(itemDate, endDate) < 0){
+//                    startDate = itemDate;
+//                }else if (DateUtil.dateMonthEquals(itemDate, endDate) > 0){
+//                    endDate = itemDate;
+//                }
+
             }else {
                 if (startDate == null && endDate == null){
                     startDate = itemDate;
