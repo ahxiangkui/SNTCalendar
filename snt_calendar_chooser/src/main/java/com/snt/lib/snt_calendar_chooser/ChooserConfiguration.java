@@ -13,6 +13,9 @@ public class ChooserConfiguration {
     private boolean autoDismissDate; //默认不处理 需要自行处理dismiss(), 请在构建的时候设置.isNeedOverrideDismiss(true) 已将弹窗的实体对象存储在ResultItem对象中, 关闭直接取出dismiss即可
     private SelectedDateItem selectedDateItem;
     private ChooseResultListener listener;
+    private DateItemThemeSetupCallback themeSetupCallback;
+    private int calendarDialogLayout;
+    private int dateItemLayout;
     private int tintColor;
     private int confirmBtnColor;
     private int tintAlpha;
@@ -24,6 +27,30 @@ public class ChooserConfiguration {
         this.mode = mode;
         this.currentDate = currentDate;
         this.listener = listener;
+    }
+
+    public int getDateItemLayout() {
+        return dateItemLayout;
+    }
+
+    public void setDateItemLayout(int dateItemLayout) {
+        this.dateItemLayout = dateItemLayout;
+    }
+
+    public DateItemThemeSetupCallback getThemeSetupCallback() {
+        return themeSetupCallback;
+    }
+
+    public void setThemeSetupCallback(DateItemThemeSetupCallback themeSetupCallback) {
+        this.themeSetupCallback = themeSetupCallback;
+    }
+
+    public int getCalendarDialogLayout() {
+        return calendarDialogLayout;
+    }
+
+    public void setCalendarDialogLayout(int calendarDialogLayout) {
+        this.calendarDialogLayout = calendarDialogLayout;
     }
 
     public void setDisplayDateformat(SimpleDateFormat displayDateformat) {

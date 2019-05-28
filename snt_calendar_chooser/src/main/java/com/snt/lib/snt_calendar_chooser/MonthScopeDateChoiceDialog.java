@@ -78,7 +78,7 @@ public class MonthScopeDateChoiceDialog extends ExpandedBottomSheetDialog implem
         this.maxDate = configuration.getMaxDate();
         this.minDate = configuration.getMinDate();
 
-        View dialogV = LayoutInflater.from(context).inflate(R.layout.month_date_choice_dialog, null);
+        View dialogV = LayoutInflater.from(context).inflate(configuration.getCalendarDialogLayout() != 0 ? configuration.getCalendarDialogLayout() : R.layout.month_date_choice_dialog, null);
         setContentView(dialogV);
 
         TextView confirmBtn = dialogV.findViewById(R.id.btn_confirm);
@@ -94,7 +94,10 @@ public class MonthScopeDateChoiceDialog extends ExpandedBottomSheetDialog implem
                 }
             }
         });
-        confirmBtn.setBackgroundColor(configuration.getConfirmBtnColor());
+        if (configuration.getCalendarDialogLayout() == 0){
+
+            confirmBtn.setBackgroundColor(configuration.getConfirmBtnColor());
+        }
         yearTV = dialogV.findViewById(R.id.txt_year);
 
         lastYearIB = dialogV.findViewById(R.id.ib_last_year);
@@ -120,7 +123,8 @@ public class MonthScopeDateChoiceDialog extends ExpandedBottomSheetDialog implem
         Calendar startDate = configuration.getSelectedDateItem().getStartDate();
         Calendar endDate = configuration.getSelectedDateItem().getEndDate();
 
-        rvAdapter = new MonthScopeDateChoiceRVAdapter(context, startDate, endDate, minDate, maxDate, configuration.getTintColor(), configuration.getTintAlpha(), this);
+        rvAdapter = new MonthScopeDateChoiceRVAdapter(context, startDate, endDate, minDate, maxDate
+                , configuration.getTintColor(), configuration.getTintAlpha(), this, configuration.getThemeSetupCallback(), configuration.getDateItemLayout());
         recyclerView.setAdapter(rvAdapter);
         setupData(endDate != null ? endDate : (startDate != null ? startDate : Calendar.getInstance()));
     }

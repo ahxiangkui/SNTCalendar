@@ -1,6 +1,7 @@
 package com.snt.calendar.test;
 
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.snt.lib.snt_calendar_chooser.CalendarChooser;
 import com.snt.lib.snt_calendar_chooser.ChooseResultListener;
 import com.snt.lib.snt_calendar_chooser.ChooserMode;
+import com.snt.lib.snt_calendar_chooser.DateItemThemeSetupCallback;
 import com.snt.lib.snt_calendar_chooser.SelectedDateItem;
 
 import java.text.SimpleDateFormat;
@@ -155,6 +157,39 @@ public class MainActivity extends AppCompatActivity {
                     .tintColor(Color.parseColor("#1777CB"))
                     .confirmBtnColor(Color.parseColor("#DDBA76"))
                     .displayDateFormat(new SimpleDateFormat("yyyy-MM", Locale.CHINA))
+                    .calendarDialogLayout(R.layout.m_month_date_choice_dialog)
+                    .dateItemLayout(R.layout.item_month_date_choice_m)
+                    .themeSetupCallback(new DateItemThemeSetupCallback() {
+                        @Override
+                        public void setupItemTheme(int itemLayoutRes, View holderItemView, int themeType) {
+
+                            View contentV = holderItemView.findViewById(R.id.ll_content);
+                            View selectV = holderItemView.findViewById(R.id.fl_select);
+                            TextView titleTV = holderItemView.findViewById(R.id.txt_title);
+                            TextView unitTV = holderItemView.findViewById(R.id.txt_unit);
+
+                            switch (themeType){
+                                case CalendarChooser.THEME_ITEM_SELECT_SINGLE:
+                                    titleTV.setTextColor(Color.WHITE);
+                                    unitTV.setTextColor(Color.WHITE);
+                                    contentV.setBackgroundColor(Color.TRANSPARENT);
+                                    selectV.setBackgroundResource(R.drawable.bg_date_item_select);
+                                    break;
+                                case CalendarChooser.THEME_ITEM_DISABLE:
+                                    titleTV.setTextColor(ContextCompat.getColor(MainActivity.this, com.snt.lib.snt_calendar_chooser.R.color.dateTxtDisableColor));
+                                    unitTV.setTextColor(ContextCompat.getColor(MainActivity.this, com.snt.lib.snt_calendar_chooser.R.color.dateTxtDisableColor));
+                                    contentV.setBackgroundColor(Color.TRANSPARENT);
+                                    selectV.setBackgroundColor(Color.TRANSPARENT);
+                                    break;
+                                default:
+                                    titleTV.setTextColor(ContextCompat.getColor(MainActivity.this, com.snt.lib.snt_calendar_chooser.R.color.dateTxtColor));
+                                    unitTV.setTextColor(ContextCompat.getColor(MainActivity.this, com.snt.lib.snt_calendar_chooser.R.color.dateTxtColor));
+                                    contentV.setBackgroundColor(Color.TRANSPARENT);
+                                    selectV.setBackgroundColor(Color.TRANSPARENT);
+                                    break;
+                            }
+                        }
+                    })
                     .resultListener(new ChooseResultListener() {
                         @Override
                         public void choiceResult(SelectedDateItem result) {

@@ -25,6 +25,7 @@ public class MonthDateChoiceRVAdapter extends RecyclerView.Adapter<MonthDateChoi
     private Context context;
     private List<Integer> items;
     private RVItemEventListener rvItemEventListener;
+    private DateItemThemeSetupCallback themeSetupCallback;
     private int maxYear;
     private int minYear;
     private int maxMonth;
@@ -38,16 +39,20 @@ public class MonthDateChoiceRVAdapter extends RecyclerView.Adapter<MonthDateChoi
     private Calendar nowDate;
     private int tintColor;
     private int tintAlpha;
+    private int itemLayout;
 
     public interface RVItemEventListener{
         void selectADate(Calendar calendar);
     }
 
-    public MonthDateChoiceRVAdapter(Context context, Calendar nowDate, Calendar maxDate, Calendar minDate, int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener) {
+    public MonthDateChoiceRVAdapter(Context context, Calendar nowDate, Calendar maxDate, Calendar minDate
+            , int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener, DateItemThemeSetupCallback themeSetupCallback, int itemLayout) {
         this.maxDate = maxDate;
         this.minDate = minDate;
         this.tintColor = tintColor;
         this.tintAlpha = tintAlpha;
+        this.itemLayout = itemLayout != 0 ? itemLayout : R.layout.item_month_date_choice;
+        this.themeSetupCallback = themeSetupCallback;
         if (maxDate != null){
 
             this.maxYear = maxDate.get(Calendar.YEAR);
@@ -88,7 +93,7 @@ public class MonthDateChoiceRVAdapter extends RecyclerView.Adapter<MonthDateChoi
     @Override
     public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = mLayoutInflater.inflate(R.layout.item_month_date_choice,parent,false);
+        View itemView = mLayoutInflater.inflate(itemLayout,parent,false);
         return new NormalViewHolder(itemView);
     }
 
@@ -106,29 +111,58 @@ public class MonthDateChoiceRVAdapter extends RecyclerView.Adapter<MonthDateChoi
             Integer item = items.get(position);
             ((NormalViewHolder) holder).titleTV.setText(item+"");
             ((NormalViewHolder) holder).currentMonth = item;
-            if (nowDate != null && selectYear == currentYear && selectMonth == item){
-                ((NormalViewHolder) holder).titleTV.setTextColor(tintColor);
-                ((NormalViewHolder) holder).unitTV.setTextColor(tintColor);
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(tintColor);
-                ((NormalViewHolder) holder).contentV.getBackground().setAlpha(tintAlpha);
+            if (nowDate != null && selectYear == currentYear && selectMonth == item){//select
+                if (themeSetupCallback != null){
 
+                    themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_SELECT_SINGLE);
+                }else {
+
+                    ((NormalViewHolder) holder).titleTV.setTextColor(tintColor);
+                    ((NormalViewHolder) holder).unitTV.setTextColor(tintColor);
+                    ((NormalViewHolder) holder).contentV.setBackgroundColor(tintColor);
+                    ((NormalViewHolder) holder).contentV.getBackground().setAlpha(tintAlpha);
+                }
                 ((NormalViewHolder) holder).disable = false;
                 selectItemPosition = position;
-            }else if (maxDate != null && (currentYear > maxYear || (currentYear == maxYear && item > maxMonth))){
-                ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+
+            }else if (maxDate != null && (currentYear > maxYear || (currentYear == maxYear && item > maxMonth))){//disable
+
+                if (themeSetupCallback != null){
+
+                    themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                }else {
+
+                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                    ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                    ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+                }
                 ((NormalViewHolder) holder).disable = true;
-            }else if (minDate != null && (currentYear < minYear || (currentYear == minYear && item < minMonth))){
-                ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+
+            }else if (minDate != null && (currentYear < minYear || (currentYear == minYear && item < minMonth))){//disable
+
+                if (themeSetupCallback != null){
+
+                    themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                }else {
+
+                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                    ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                    ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+                }
                 ((NormalViewHolder) holder).disable = true;
-            }else {
-                ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
-                ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+
+            }else {//normal
+                if (themeSetupCallback != null){
+
+                    themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_NORMAL);
+                }else {
+
+                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
+                    ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
+                    ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+                }
                 ((NormalViewHolder) holder).disable = false;
+
             }
             ((NormalViewHolder) holder).itemPosition = position;
 
@@ -190,10 +224,9 @@ public class MonthDateChoiceRVAdapter extends RecyclerView.Adapter<MonthDateChoi
                 notifyItemChanged(selectItemPosition);
             }
             selectItemPosition = itemPosition;
-            titleTV.setTextColor(tintColor);
-            unitTV.setTextColor(tintColor);
-            contentV.setBackgroundColor(tintColor);
-            contentV.getBackground().setAlpha(tintAlpha);
+
+            notifyItemChanged(itemPosition);
+
 
         }
     }

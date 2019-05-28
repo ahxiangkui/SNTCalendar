@@ -34,6 +34,8 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
     private boolean weekmode;
     private int tintColor;
     private int tintAlpha;
+    private DateItemThemeSetupCallback themeSetupCallback;
+    private int itemLayout;
 
     private int selectItemPosition = -1;
 
@@ -42,7 +44,7 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
     }
 
     public DateChoiceRVAdapter(Context context, Calendar selectDate, Calendar minDate, Calendar maxDate
-            , boolean weekmode, int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener) {
+            , boolean weekmode, int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener, DateItemThemeSetupCallback themeSetupCallback, int itemLayout) {
         this.maxDate = maxDate;
         this.minDate = minDate;
         this.tintColor = tintColor;
@@ -53,6 +55,8 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
         this.datas = new ArrayList<>();
         this.context = context;
         this.weekmode = weekmode;
+        this.itemLayout = itemLayout != 0 ? itemLayout : R.layout.item_date_choice;
+        this.themeSetupCallback = themeSetupCallback;
     }
 
     public List<Calendar> getDatas() {
@@ -79,7 +83,7 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
     @Override
     public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = mLayoutInflater.inflate(R.layout.item_date_choice,parent,false);
+        View itemView = mLayoutInflater.inflate(itemLayout,parent,false);
         return new NormalViewHolder(itemView);
     }
 
@@ -104,35 +108,57 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
                 if (selectDate != null && sameWeek(selectDate, item)){
 
                     if (item.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY){
-                        ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
-                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
-                        ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.INVISIBLE);
-                        ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.VISIBLE);
 
-                        ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
-                        ((NormalViewHolder) holder).rightSelectBgV.setBackgroundColor(tintColor);
-                        ((NormalViewHolder) holder).rightSelectBgV.getBackground().setAlpha(tintAlpha);
+                        if (themeSetupCallback != null){
+
+                            themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_SCOPE_START);
+                        }else {
+
+                            ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
+                            ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
+                            ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.INVISIBLE);
+                            ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.VISIBLE);
+
+                            ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
+                            ((NormalViewHolder) holder).rightSelectBgV.setBackgroundColor(tintColor);
+                            ((NormalViewHolder) holder).rightSelectBgV.getBackground().setAlpha(tintAlpha);
+                        }
 
                     }else if (item.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-                        ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
-                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
-                        ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.VISIBLE);
-                        ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.INVISIBLE);
 
-                        ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
-                        ((NormalViewHolder) holder).leftSelectBgV.setBackgroundColor(tintColor);
-                        ((NormalViewHolder) holder).leftSelectBgV.getBackground().setAlpha(tintAlpha);
+                        if (themeSetupCallback != null){
+
+                            themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_SCOPE_END);
+                        }else {
+
+                            ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
+                            ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
+                            ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.VISIBLE);
+                            ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.INVISIBLE);
+
+                            ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
+                            ((NormalViewHolder) holder).leftSelectBgV.setBackgroundColor(tintColor);
+                            ((NormalViewHolder) holder).leftSelectBgV.getBackground().setAlpha(tintAlpha);
+                        }
+
 
                     }else {
-                        ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
-                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
-                        ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.VISIBLE);
-                        ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.VISIBLE);
+                        if (themeSetupCallback != null){
 
-                        ((NormalViewHolder) holder).leftSelectBgV.setBackgroundColor(tintColor);
-                        ((NormalViewHolder) holder).rightSelectBgV.setBackgroundColor(tintColor);
-                        ((NormalViewHolder) holder).leftSelectBgV.getBackground().setAlpha(tintAlpha);
-                        ((NormalViewHolder) holder).rightSelectBgV.getBackground().setAlpha(tintAlpha);
+                            themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_SCOPE_INNER);
+                        }else {
+
+
+                            ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
+                            ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                            ((NormalViewHolder) holder).leftSelectBgV.setVisibility(View.VISIBLE);
+                            ((NormalViewHolder) holder).rightSelectBgV.setVisibility(View.VISIBLE);
+
+                            ((NormalViewHolder) holder).leftSelectBgV.setBackgroundColor(tintColor);
+                            ((NormalViewHolder) holder).rightSelectBgV.setBackgroundColor(tintColor);
+                            ((NormalViewHolder) holder).leftSelectBgV.getBackground().setAlpha(tintAlpha);
+                            ((NormalViewHolder) holder).rightSelectBgV.getBackground().setAlpha(tintAlpha);
+                        }
 
                     }
 
@@ -140,44 +166,98 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
                     ((NormalViewHolder) holder).disable = false;
                     selectItemPosition = position;
                 }else if (maxDate != null && dateEquals(item, maxDate) > 0){
-                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                    ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    if (themeSetupCallback != null){
+
+                        themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                    }else {
+
+                        ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    }
                     ((NormalViewHolder) holder).disable = true;
                 }else if (minDate != null && dateEquals(item, minDate) < 0){
-                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                    ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    if (themeSetupCallback != null){
+
+                        themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                    }else {
+
+                        ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    }
                     ((NormalViewHolder) holder).disable = true;
                 }else if (currentDate != null && dateMonthEquals(item, currentDate) != 0){
-                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                    ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    if (themeSetupCallback != null){
+
+                        themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                    }else {
+
+                        ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    }
                 }else {
-                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
-                    ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    if (themeSetupCallback != null){
+
+                        themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_NORMAL);
+                    }else {
+
+                        ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
+                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    }
                     ((NormalViewHolder) holder).disable = false;
                 }
 
             }else {
 
                 if (selectDate != null && dateEquals(selectDate, item) == 0){
-                    ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
-                    ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
-                    ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
+                    if (themeSetupCallback != null){
+
+                        themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_SELECT_SINGLE);
+                    }else {
+
+                        ((NormalViewHolder) holder).titleTV.setTextColor(Color.WHITE);
+                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.VISIBLE);
+                        ViewCompat.setBackgroundTintList(((NormalViewHolder) holder).selectBgV, ColorStateList.valueOf(tintColor));
+                    }
                     ((NormalViewHolder) holder).disable = false;
                     selectItemPosition = position;
                 }else if (maxDate != null && dateEquals(item, maxDate) > 0){
-                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                    ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    if (themeSetupCallback != null){
+
+                        themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                    }else {
+
+                        ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    }
                     ((NormalViewHolder) holder).disable = true;
                 }else if (minDate != null && dateEquals(item, minDate) < 0){
-                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                    ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    if (themeSetupCallback != null){
+
+                        themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                    }else {
+
+                        ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    }
                     ((NormalViewHolder) holder).disable = true;
                 }else if (currentDate != null && dateMonthEquals(item, currentDate) != 0){
-                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                    ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    if (themeSetupCallback != null){
+
+                        themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                    }else {
+
+                        ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    }
                 }else {
-                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
-                    ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    if (themeSetupCallback != null){
+
+                        themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_NORMAL);
+                    }else {
+
+                        ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
+                        ((NormalViewHolder) holder).selectBgV.setVisibility(View.GONE);
+                    }
                     ((NormalViewHolder) holder).disable = false;
                 }
 
@@ -301,9 +381,7 @@ public class DateChoiceRVAdapter extends RecyclerView.Adapter<DateChoiceRVAdapte
                     notifyItemChanged(selectItemPosition);
                 }
                 selectItemPosition = itemPosition;
-                titleTV.setTextColor(Color.WHITE);
-                selectBgV.setVisibility(View.VISIBLE);
-                ViewCompat.setBackgroundTintList(selectBgV, ColorStateList.valueOf(tintColor));
+                notifyItemChanged(itemPosition);
             }
 
         }

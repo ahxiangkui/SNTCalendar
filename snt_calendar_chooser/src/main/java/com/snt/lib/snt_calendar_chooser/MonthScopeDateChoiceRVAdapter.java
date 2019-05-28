@@ -31,13 +31,15 @@ public class MonthScopeDateChoiceRVAdapter extends RecyclerView.Adapter<MonthSco
     private Calendar endDate;
     private int tintColor;
     private int tintAlpha;
+    private DateItemThemeSetupCallback themeSetupCallback;
+    private int itemLayout;
 
     public interface RVItemEventListener{
         void selectScopeDate(Calendar selectStartDate, Calendar selectEndDate);
     }
 
     public MonthScopeDateChoiceRVAdapter(Context context, Calendar startDate, Calendar endDate
-            , Calendar minDate, Calendar maxDate, int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener) {
+            , Calendar minDate, Calendar maxDate, int tintColor, int tintAlpha, RVItemEventListener rvItemEventListener, DateItemThemeSetupCallback themeSetupCallback, int itemLayout) {
         this.maxDate = maxDate;
         this.minDate = minDate;
         this.tintColor = tintColor;
@@ -48,6 +50,8 @@ public class MonthScopeDateChoiceRVAdapter extends RecyclerView.Adapter<MonthSco
         this.rvItemEventListener = rvItemEventListener;
         this.items = new ArrayList<>();
         this.context = context;
+        this.itemLayout = itemLayout != 0 ? itemLayout : R.layout.item_month_date_choice;
+        this.themeSetupCallback = themeSetupCallback;
     }
 
     public Calendar getStartDate() {
@@ -72,7 +76,7 @@ public class MonthScopeDateChoiceRVAdapter extends RecyclerView.Adapter<MonthSco
     @Override
     public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = mLayoutInflater.inflate(R.layout.item_month_date_choice,parent,false);
+        View itemView = mLayoutInflater.inflate(itemLayout,parent,false);
         return new NormalViewHolder(itemView);
     }
 
@@ -93,26 +97,53 @@ public class MonthScopeDateChoiceRVAdapter extends RecyclerView.Adapter<MonthSco
             if ((startDate != null && DateUtil.dateMonthEquals(item, startDate) == 0)
                     || (endDate != null && DateUtil.dateMonthEquals(endDate, item) == 0)
                     || (startDate != null && endDate != null && DateUtil.dateMonthEquals(startDate, item) < 0 && DateUtil.dateMonthEquals(endDate, item) > 0)){
-                ((NormalViewHolder) holder).titleTV.setTextColor(tintColor);
-                ((NormalViewHolder) holder).unitTV.setTextColor(tintColor);
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(tintColor);
-                ((NormalViewHolder) holder).contentV.getBackground().setAlpha(tintAlpha);
+
+                if (themeSetupCallback != null){
+
+                    themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_SELECT_SINGLE);
+                }else {
+
+                    ((NormalViewHolder) holder).titleTV.setTextColor(tintColor);
+                    ((NormalViewHolder) holder).unitTV.setTextColor(tintColor);
+                    ((NormalViewHolder) holder).contentV.setBackgroundColor(tintColor);
+                    ((NormalViewHolder) holder).contentV.getBackground().setAlpha(tintAlpha);
+                }
 
                 ((NormalViewHolder) holder).disable = false;
             }else if (maxDate != null && DateUtil.dateMonthEquals(item, maxDate) > 0){
-                ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+
+                if (themeSetupCallback != null){
+
+                    themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                }else {
+
+
+                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                    ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                    ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+                }
                 ((NormalViewHolder) holder).disable = true;
             }else if (minDate != null && DateUtil.dateMonthEquals(item, minDate) < 0){
-                ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+                if (themeSetupCallback != null){
+
+                    themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_DISABLE);
+                }else {
+
+                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                    ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtDisableColor));
+                    ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+                }
                 ((NormalViewHolder) holder).disable = true;
             }else {
-                ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
-                ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
-                ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+                if (themeSetupCallback != null){
+
+                    themeSetupCallback.setupItemTheme(itemLayout, holder.itemView, CalendarChooser.THEME_ITEM_NORMAL);
+                }else {
+
+                    ((NormalViewHolder) holder).titleTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
+                    ((NormalViewHolder) holder).unitTV.setTextColor(ContextCompat.getColor(context, R.color.dateTxtColor));
+                    ((NormalViewHolder) holder).contentV.setBackgroundColor(Color.TRANSPARENT);
+                }
                 ((NormalViewHolder) holder).disable = false;
             }
             ((NormalViewHolder) holder).itemPosition = position;

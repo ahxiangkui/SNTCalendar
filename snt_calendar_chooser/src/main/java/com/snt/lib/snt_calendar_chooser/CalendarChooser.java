@@ -2,6 +2,7 @@ package com.snt.lib.snt_calendar_chooser;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
@@ -11,6 +12,13 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class CalendarChooser {
+
+    public static final int THEME_ITEM_NORMAL = 0;
+    public static final int THEME_ITEM_SELECT_SINGLE = 1;
+    public static final int THEME_ITEM_SCOPE_START = 2;
+    public static final int THEME_ITEM_SCOPE_INNER = 3;
+    public static final int THEME_ITEM_SCOPE_END = 4;
+    public static final int THEME_ITEM_DISABLE = 5;
 
     public static final int defaultTintColorAlpha = 20;
 
@@ -122,6 +130,9 @@ public class CalendarChooser {
         private SimpleDateFormat valueDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         private SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         private ChooseResultListener listener;
+        private DateItemThemeSetupCallback themeSetupCallback;
+        private int calendarDialogLayout;
+        private int dateItemLayout;
         private int tintColor;
         private int confirmBtnColor;
         private int tintAlpha;
@@ -201,6 +212,21 @@ public class CalendarChooser {
             return this;
         }
 
+        public Builder themeSetupCallback(DateItemThemeSetupCallback themeSetupCallback) {
+            this.themeSetupCallback = themeSetupCallback;
+            return this;
+        }
+
+        public Builder calendarDialogLayout(@LayoutRes int calendarDialogLayout) {
+            this.calendarDialogLayout = calendarDialogLayout;
+            return this;
+        }
+
+        public Builder dateItemLayout(@LayoutRes int dateItemLayout) {
+            this.dateItemLayout = dateItemLayout;
+            return this;
+        }
+
         public CalendarChooser build() {
 
             if (mode == null) {
@@ -222,6 +248,9 @@ public class CalendarChooser {
 
             config.setDisplayDateformat(displayDateFormat);
             config.setValueDateformat(valueDateFormat);
+            config.setThemeSetupCallback(themeSetupCallback);
+            config.setCalendarDialogLayout(calendarDialogLayout);
+            config.setDateItemLayout(dateItemLayout);
 
             if (tintAlpha != 0){
                 config.setTintAlpha(tintAlpha);

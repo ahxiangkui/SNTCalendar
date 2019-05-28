@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DateDialogStyle" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <!--<item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>-->
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="android:backgroundDimEnabled">true</item>-->
+    </style>
+
+</resources>

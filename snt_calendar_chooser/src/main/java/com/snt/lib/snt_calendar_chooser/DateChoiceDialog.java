@@ -47,7 +47,7 @@ public class DateChoiceDialog extends ExpandedBottomSheetDialog implements DateC
         this.nowDate = configuration.getCurrentDate();
         this.configuration = configuration;
         this.weekmode = weekmode;
-        View dialogV = LayoutInflater.from(context).inflate(R.layout.date_choice_dialog, null);
+        View dialogV = LayoutInflater.from(context).inflate(configuration.getCalendarDialogLayout() != 0 ? configuration.getCalendarDialogLayout() : R.layout.date_choice_dialog, null);
         setContentView(dialogV);
         selectedDate = nowDate;
         TextView confirmBtn = dialogV.findViewById(R.id.btn_confirm);
@@ -65,7 +65,10 @@ public class DateChoiceDialog extends ExpandedBottomSheetDialog implements DateC
                 }
             }
         });
-        confirmBtn.setBackgroundColor(configuration.getConfirmBtnColor());
+        if (configuration.getCalendarDialogLayout() == 0){
+
+            confirmBtn.setBackgroundColor(configuration.getConfirmBtnColor());
+        }
         yearTV = dialogV.findViewById(R.id.txt_year);
 
         lastYearIB = dialogV.findViewById(R.id.ib_last_year);
@@ -105,7 +108,8 @@ public class DateChoiceDialog extends ExpandedBottomSheetDialog implements DateC
 
         RecyclerView recyclerView = dialogV.findViewById(R.id.rv_month_choice);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 7));
-        rvAdapter = new DateChoiceRVAdapter(context, nowDate, minDate, maxDate, weekmode, configuration.getTintColor(), configuration.getTintAlpha(), this);
+        rvAdapter = new DateChoiceRVAdapter(context, nowDate, minDate, maxDate, weekmode
+                , configuration.getTintColor(), configuration.getTintAlpha(), this, configuration.getThemeSetupCallback(), configuration.getDateItemLayout());
         recyclerView.setAdapter(rvAdapter);
         setupData(nowDate != null ? nowDate : Calendar.getInstance());
     }

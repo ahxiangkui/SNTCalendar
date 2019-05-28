@@ -31,13 +31,13 @@ public class MonthDateChoiceDialog extends ExpandedBottomSheetDialog implements 
 
 
     public MonthDateChoiceDialog(@NonNull Context context, ChooserConfiguration configuration) {
-        super(context);
+        super(context, R.style.DateDialogStyle);
         this.resultListener = configuration.getListener();
         this.maxDate = configuration.getMaxDate();
         this.minDate = configuration.getMinDate();
         this.nowDate = configuration.getCurrentDate();
         this.configuration = configuration;
-        View dialogV = LayoutInflater.from(context).inflate(R.layout.month_date_choice_dialog, null);
+        View dialogV = LayoutInflater.from(context).inflate(configuration.getCalendarDialogLayout() != 0 ? configuration.getCalendarDialogLayout() : R.layout.month_date_choice_dialog, null);
         setContentView(dialogV);
         selectedDate = nowDate;
         TextView confirmBtn = dialogV.findViewById(R.id.btn_confirm);
@@ -53,7 +53,10 @@ public class MonthDateChoiceDialog extends ExpandedBottomSheetDialog implements 
                 }
             }
         });
-        confirmBtn.setBackgroundColor(configuration.getConfirmBtnColor());
+        if (configuration.getCalendarDialogLayout() == 0){
+
+            confirmBtn.setBackgroundColor(configuration.getConfirmBtnColor());
+        }
         yearTV = dialogV.findViewById(R.id.txt_year);
 
         lastYearIB = dialogV.findViewById(R.id.ib_last_year);
@@ -75,7 +78,8 @@ public class MonthDateChoiceDialog extends ExpandedBottomSheetDialog implements 
 
         RecyclerView recyclerView = dialogV.findViewById(R.id.rv_month_choice);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 4));
-        rvAdapter = new MonthDateChoiceRVAdapter(context, nowDate, maxDate, minDate, configuration.getTintColor(), configuration.getTintAlpha(), this);
+        rvAdapter = new MonthDateChoiceRVAdapter(context, nowDate, maxDate, minDate, configuration.getTintColor()
+                , configuration.getTintAlpha(), this, configuration.getThemeSetupCallback(), configuration.getDateItemLayout());
         recyclerView.setAdapter(rvAdapter);
         setupData(nowDate != null ? nowDate : Calendar.getInstance());
     }
