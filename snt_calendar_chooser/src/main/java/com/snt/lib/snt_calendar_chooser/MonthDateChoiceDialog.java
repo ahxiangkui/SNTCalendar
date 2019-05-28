@@ -144,7 +144,7 @@ public class MonthDateChoiceDialog extends ExpandedBottomSheetDialog implements 
 
     public void selectLastDate(){
 
-        if (minDate != null && DateUtil.dateEquals(minDate, selectedDate) >= 0){
+        if (minDate != null && DateUtil.dateMonthEquals(minDate, selectedDate) >= 0){
             return;
         }
 
@@ -158,7 +158,7 @@ public class MonthDateChoiceDialog extends ExpandedBottomSheetDialog implements 
 
     public void selectNextDate(){
 
-        if (maxDate != null && DateUtil.dateEquals(maxDate, selectedDate) <= 0){
+        if (maxDate != null && DateUtil.dateMonthEquals(maxDate, selectedDate) <= 0){
             return;
         }
 
