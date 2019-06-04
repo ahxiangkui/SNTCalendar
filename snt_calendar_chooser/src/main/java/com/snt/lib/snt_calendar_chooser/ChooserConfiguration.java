@@ -2,6 +2,7 @@ package com.snt.lib.snt_calendar_chooser;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class ChooserConfiguration {
@@ -19,6 +20,7 @@ public class ChooserConfiguration {
     private int tintColor;
     private int confirmBtnColor;
     private int tintAlpha;
+    private List<Integer> enableWeekDays;
 
     private SimpleDateFormat displayDateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     private SimpleDateFormat valueDateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
@@ -27,6 +29,14 @@ public class ChooserConfiguration {
         this.mode = mode;
         this.currentDate = currentDate;
         this.listener = listener;
+    }
+
+    public List<Integer> getEnableWeekDays() {
+        return enableWeekDays;
+    }
+
+    public void setEnableWeekDays(List<Integer> enableWeekDays) {
+        this.enableWeekDays = enableWeekDays;
     }
 
     public int getDateItemLayout() {

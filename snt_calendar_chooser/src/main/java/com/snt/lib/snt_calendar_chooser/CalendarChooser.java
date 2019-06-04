@@ -9,6 +9,7 @@ import android.support.v4.graphics.ColorUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class CalendarChooser {
@@ -45,6 +46,9 @@ public class CalendarChooser {
             case MONTH_SCOPE:
                 dialog = new MonthScopeDateChoiceDialog(context, configuration);
                 break;
+            case DAY_IN_WEEKEND:
+                dialog = new DateInWeekendChoiceDialog(context, configuration);
+                break;
         }
     }
 
@@ -57,6 +61,8 @@ public class CalendarChooser {
             ((DateScopeChoiceDialog) dialog).currentDate();
         }else if (dialog instanceof MonthScopeDateChoiceDialog){
             ((MonthScopeDateChoiceDialog) dialog).currentDate();
+        }else if (dialog instanceof DateInWeekendChoiceDialog){
+            ((DateInWeekendChoiceDialog) dialog).currentDate();
         }
     }
 
@@ -136,6 +142,7 @@ public class CalendarChooser {
         private int tintColor;
         private int confirmBtnColor;
         private int tintAlpha;
+        private List<Integer> enableWeekDays;// DAY_IN_WEEKEND 可用
 
         public Builder(Context context) {
             this.context = context;
@@ -227,6 +234,11 @@ public class CalendarChooser {
             return this;
         }
 
+        public Builder enableWeekDays(List<Integer> enableWeekDays) {
+            this.enableWeekDays = enableWeekDays;
+            return this;
+        }
+
         public CalendarChooser build() {
 
             if (mode == null) {
@@ -251,6 +263,7 @@ public class CalendarChooser {
             config.setThemeSetupCallback(themeSetupCallback);
             config.setCalendarDialogLayout(calendarDialogLayout);
             config.setDateItemLayout(dateItemLayout);
+            config.setEnableWeekDays(enableWeekDays);
 
             if (tintAlpha != 0){
                 config.setTintAlpha(tintAlpha);

@@ -14,7 +14,9 @@ import com.snt.lib.snt_calendar_chooser.DateItemThemeSetupCallback;
 import com.snt.lib.snt_calendar_chooser.SelectedDateItem;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,12 +32,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView singleWeekNextTV;
     private TextView scopeDayTV;
     private TextView scopeMonthTV;
+    private TextView singleDayInWeekendTV;
 
     private CalendarChooser singleDayChooser;
     private CalendarChooser singleMonthChooser;
     private CalendarChooser singleWeekChooser;
     private CalendarChooser scopeDayChooser;
     private CalendarChooser scopeMonthChooser;
+    private CalendarChooser singleDayInWeekendChooser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
         scopeMonthTV      = findViewById(R.id.txt_scope_month);
         setupScopeMonth();
+
+        singleDayInWeekendTV = findViewById(R.id.txt_single_day_in_weekend);
+        setupSingleDayInWeekend();
     }
 
     //////////////////////// --单选日-- /////////////////////////
@@ -359,4 +366,45 @@ public class MainActivity extends AppCompatActivity {
         return scopeMonthChooser;
     }
     ////////////////////// -- 月-区域选择 -- ///////////////////////////
+
+    //////////////////////// --单选 仅选周末-- /////////////////////////
+    private void setupSingleDayInWeekend(){
+
+        singleDayInWeekendTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSingleDayInWeekendChooser().show();//显示日历
+            }
+        });
+
+        getSingleDayInWeekendChooser().currentDate();//显示当前日期
+
+    }
+    private CalendarChooser getSingleDayInWeekendChooser(){
+        if (singleDayInWeekendChooser == null){
+//            Calendar maxDate = Calendar.getInstance();
+//            maxDate.add(Calendar.DATE, 10);
+            CalendarChooser.Builder builder = new CalendarChooser.Builder(this)
+                    .mode(ChooserMode.DAY_IN_WEEKEND)
+                    .currentDate(Calendar.getInstance())
+                    .minDate(Calendar.getInstance())
+                    .enableWeekDays(Arrays.asList(new Integer[] {Calendar.SATURDAY, Calendar.WEDNESDAY}))
+//                    .maxDate(maxDate)
+                    .tintAlpha(15)
+                    .tintColor(Color.parseColor("#1777CB"))
+                    .confirmBtnColor(Color.parseColor("#DDBA76"))
+                    .displayDateFormat(new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA))
+                    .resultListener(new ChooseResultListener() {
+                        @Override
+                        public void choiceResult(SelectedDateItem result) {
+                            singleDayInWeekendTV.setText(result.getDisplayStr());
+                        }
+                    });
+
+            singleDayInWeekendChooser = builder.build();
+        }
+
+        return singleDayInWeekendChooser;
+    }
+    /////////////////////// --单选 仅选周末-- //////////////////////////
 }

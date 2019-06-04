@@ -6,4 +6,5 @@ public enum ChooserMode {
     MONTH,//选择具体某月
     DAY_SCOPE,//选择日期区间
     MONTH_SCOPE,//选择月份区间
+    DAY_IN_WEEKEND,//仅可选择指定某星期几
 }
