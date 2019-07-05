@@ -7,7 +7,7 @@
 
 ```gradle
 dependencies {
-    implementation 'com.snt.lib:snt_calendar_chooser:1.0.0'
+    implementation 'com.snt.lib:snt_calendar_chooser:1.0.9'
 }
 ```
 
