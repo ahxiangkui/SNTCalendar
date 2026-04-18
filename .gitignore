@@ -12,6 +12,13 @@
 /captures
 .externalNativeBuild
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
 # Generated test papers
 *.docx
 示例*.docx
