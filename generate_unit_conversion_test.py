@@ -250,7 +250,7 @@ def create_test_paper(filename="二年级单位换算试题.docx", pages=10, que
         
         # 比大小部分（约15题）
         section2 = doc.add_paragraph()
-        section2_run = section2.add_run('二、比大小（在○里填上">""<"或"="）（每题2分）')
+        section2_run = section2.add_run('二、比大小（在○里填上">"、"<"或"="）（每题2分）')
         section2_run.font.size = Pt(12)
         section2_run.font.bold = True
         
