@@ -12,6 +12,10 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 
 
+# 配置常量
+FILL_BLANK_RATIO = 0.7  # 填空题占比70%
+
+
 class UnitConversionGenerator:
     """生成单位换算试题的类"""
     
@@ -92,7 +96,8 @@ class UnitConversionGenerator:
             if random.choice([True, False]):
                 # 米和厘米比较
                 meters = random.randint(1, 10)
-                centimeters = random.randint(50, 150) + random.randint(0, 99)
+                # 生成50-249之间的厘米数，避免太简单的比较
+                centimeters = random.randint(50, 249)
                 left = f"{meters}米"
                 right = f"{centimeters}厘米"
                 left_value = meters * 100
@@ -227,14 +232,14 @@ def create_test_paper(filename="二年级单位换算试题.docx", pages=10, que
         doc.add_paragraph()  # 空行
         
         # 生成题目
-        # 填空题部分（约35题）
+        # 填空题部分（约70%）
         section1 = doc.add_paragraph()
         section1_run = section1.add_run('一、单位换算填空题（每题2分）')
         section1_run.font.size = Pt(12)
         section1_run.font.bold = True
         
-        fill_blank_count = int(questions_per_page * 0.7)  # 70%是填空题
-        comparison_count = questions_per_page - fill_blank_count  # 30%是比大小
+        fill_blank_count = int(questions_per_page * FILL_BLANK_RATIO)
+        comparison_count = questions_per_page - fill_blank_count
         
         for i in range(1, fill_blank_count + 1):
             question, answer = generator.generate_fill_in_blank_question()
