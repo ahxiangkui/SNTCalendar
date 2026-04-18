@@ -11,3 +11,8 @@
 /build
 /captures
 .externalNativeBuild
+
+# Generated test papers
+*.docx
+示例*.docx
+二年级*.docx

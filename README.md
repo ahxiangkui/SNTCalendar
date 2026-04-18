@@ -3,6 +3,22 @@
 
 ![测试首页](screenshot/test.png)
 
+---
+
+## 附加工具：二年级单位换算试题生成器
+
+本仓库还包含一个Python工具，用于生成二年级数学单位换算练习题的Word文档。
+
+详细使用说明请参阅：[UNIT_CONVERSION_README.md](UNIT_CONVERSION_README.md)
+
+快速开始：
+```bash
+pip install -r requirements.txt
+python generate_unit_conversion_test.py
+```
+
+---
+
 # Usage
 
 ```gradle
